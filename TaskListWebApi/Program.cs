@@ -7,6 +7,7 @@ using TaskList.Api.Application;
 using TaskList.Api.Domain.Users.Models.AuthenticationModels;
 using TaskList.Api.Infrastructure;
 using TaskList.Api.Infrastructure.Data;
+using TaskListWebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,17 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+//ENABLE CORS - purely for testing on development deployment
+app.UseCors(x => x
+   .AllowAnyMethod()
+   .AllowAnyHeader()
+   .SetIsOriginAllowed(origin => true) // allow any origin  
+   .AllowCredentials()
+   );
+
+app.UseCustomJwtMiddleware();
+
 
 app.UseHttpsRedirection();
 

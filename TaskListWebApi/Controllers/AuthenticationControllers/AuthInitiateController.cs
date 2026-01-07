@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TaskList.Api.Application.Interfaces.Services;
+using TaskList.Api.Domain.Users.DTOs.AuthModels;
 
 namespace TaskListWebApi.Controllers.AuthenticationControllers
 {

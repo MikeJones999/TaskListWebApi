@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaskList.Api.Application.Interfaces.Services;
+using TaskList.Api.Application.Services.AuthenticationServices;
+using TaskList.Api.Domain.Users.Interfaces.Repositories;
 
 namespace TaskList.Api.Application
 {
@@ -7,6 +10,9 @@ namespace TaskList.Api.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddTransient<IRefreshUserService, AuthUserService>();
+            services.AddTransient<ILoginAndRegisterUserService, AuthUserService>();
+
             // Add application-related services here
             return services;
         }
