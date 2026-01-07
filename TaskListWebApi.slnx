@@ -1,3 +1,8 @@
 <Solution>
+  <Project Path="TaskList.Api.Application/TaskList.Api.Application.csproj" />
+  <Project Path="TaskList.Api.Domain.Users/TaskList.Api.Domain.Users.csproj" />
+  <Project Path="TaskList.Api.Domian/TaskList.Api.Domian.csproj" />
+  <Project Path="TaskList.Api.Infrastructure/TaskList.Api.Infrastructure.csproj" />
+  <Project Path="TaskList.Api.Utility.StaticHelpers/TaskList.Api.Utility.StaticHelpers.csproj" />
   <Project Path="TaskListWebApi/TaskListWebApi.csproj" />
 </Solution>
