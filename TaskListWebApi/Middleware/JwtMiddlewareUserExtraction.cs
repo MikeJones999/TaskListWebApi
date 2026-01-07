@@ -28,7 +28,7 @@ namespace TaskListWebApi.Middleware
                     ClaimsPrincipal? claimsPrincipal = ValidateJwtToken(token, configuration);
                     if (claimsPrincipal == null)
                     {
-                        logger.LogWarning(message: "WHF - Failed to extract claimsPrincipals from JWT. Request {Method}", nameof(this.InvokeAsync));
+                        logger.LogWarning(message: "Failed to extract claimsPrincipals from JWT. Request {Method}", nameof(this.InvokeAsync));
                         throw new JwtTokenValidationException();
                     }
                     string? userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -36,7 +36,7 @@ namespace TaskListWebApi.Middleware
                 }
                 catch (JwtTokenValidationException ex)
                 {
-                    logger.LogWarning("WFH - {message}. Request method: {Method}", ex.Message, nameof(this.InvokeAsync));
+                    logger.LogWarning("{Message}. Request method: {Method}", ex.Message, nameof(this.InvokeAsync));
                     throw new JwtTokenValidationException($"Token is not valid.");
                 }
                 catch (Exception)
