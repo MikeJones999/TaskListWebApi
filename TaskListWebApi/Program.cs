@@ -22,8 +22,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<TaskListDbContext>()
     .AddSignInManager();
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
