@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using TaskList.Api.Application;
 using TaskList.Api.Domain.Users.Models.AuthenticationModels;
 using TaskList.Api.Infrastructure;
 using TaskList.Api.Infrastructure.Data;
+using TaskList.Api.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

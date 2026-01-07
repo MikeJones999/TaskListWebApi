@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskList.Api.Infrastructure.Data;
+using TaskList.Api.Infrastructure.Services;
 
 namespace TaskList.Api.Infrastructure
 {
@@ -13,7 +14,7 @@ namespace TaskList.Api.Infrastructure
 
             // Add infrastructure-related services here
             services.AddDbContext<TaskListDbContext>(options => options.UseSqlite(connectionString));
-
+            services.AddHostedService<DatabaseMigrationService>();
             return services;
         }
     }
