@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaskList.Api.Domain.Users.Interfaces.Repositories;
 using TaskList.Api.Infrastructure.Data;
+using TaskList.Api.Infrastructure.Repositories;
+using TaskList.Api.Infrastructure.Services;
 
 namespace TaskList.Api.Infrastructure
 {
@@ -13,6 +16,9 @@ namespace TaskList.Api.Infrastructure
 
             // Add infrastructure-related services here
             services.AddDbContext<TaskListDbContext>(options => options.UseSqlite(connectionString));
+            services.AddHostedService<DatabaseMigrationService>();
+
+            services.AddTransient<IUserRepository, UserRepository>();
 
             return services;
         }

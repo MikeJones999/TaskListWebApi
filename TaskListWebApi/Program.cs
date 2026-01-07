@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.Text;
 using TaskList.Api.Application;
 using TaskList.Api.Domain.Users.Models.AuthenticationModels;
 using TaskList.Api.Infrastructure;
 using TaskList.Api.Infrastructure.Data;
+using TaskListWebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,28 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddSignInManager();
 
 
+var key = builder.Configuration.GetSection("JWT:Key").Value!;
+var issuer = builder.Configuration.GetSection("JWT:Issuer").Value!;
+var audience = builder.Configuration.GetSection("JWT:Audience").Value!;
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateActor = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience
+    };
+});
 
 var app = builder.Build();
 
@@ -30,6 +56,17 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+//ENABLE CORS - purely for testing on development deployment
+app.UseCors(x => x
+   .AllowAnyMethod()
+   .AllowAnyHeader()
+   .SetIsOriginAllowed(origin => true) // allow any origin  
+   .AllowCredentials()
+   );
+
+app.UseCustomJwtMiddleware();
+
 
 app.UseHttpsRedirection();
 
