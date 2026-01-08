@@ -11,7 +11,7 @@ namespace TaskList.Api.Infrastructure.Repositories
         private readonly TaskListDbContext _context;
         private readonly ILogger<ToDoListRepository> _logger;
 
-        public ToDoListRepository(TaskListDbContext context, ILogger<ToDoListRepository> logger)
+        public ToDoListRepository(ILogger<ToDoListRepository> logger, TaskListDbContext context)
         {
             _context = context;
             _logger = logger;
@@ -89,8 +89,7 @@ namespace TaskList.Api.Infrastructure.Repositories
             _logger.LogInformation("Updating ToDoList {ToDoListId} for user {UserId}", toDoList.Id, toDoList.UserId);
             try
             {
-                var existing = await _context.ToDoLists
-                    .FirstOrDefaultAsync(t => t.Id == toDoList.Id && t.UserId == toDoList.UserId);
+                var existing = await _context.ToDoLists.FirstOrDefaultAsync(t => t.Id == toDoList.Id && t.UserId == toDoList.UserId);
 
                 if (existing == null)
                 {
@@ -118,8 +117,7 @@ namespace TaskList.Api.Infrastructure.Repositories
             _logger.LogInformation("Deleting ToDoList {ToDoListId} for user {UserId}", id, userId);
             try
             {
-                var toDoList = await _context.ToDoLists
-                    .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+                var toDoList = await _context.ToDoLists.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
 
                 if (toDoList == null)
                 {
@@ -145,9 +143,7 @@ namespace TaskList.Api.Infrastructure.Repositories
             _logger.LogDebug("Checking existence of ToDoList {ToDoListId} for user {UserId}", id, userId);
             try
             {
-                var exists = await _context.ToDoLists
-                    .AnyAsync(t => t.Id == id && t.UserId == userId);
-                
+                bool exists = await _context.ToDoLists.AnyAsync(t => t.Id == id && t.UserId == userId);                
                 _logger.LogDebug("ToDoList {ToDoListId} exists for user {UserId}: {Exists}", id, userId, exists);
                 return exists;
             }

@@ -81,12 +81,7 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                 _logger.LogError(ex, "Error creating ToDoList for user {UserId}", userId);
                 throw;
             }
-        }
-
-        private static void UpdateUserId(Guid userId, ToDoList toDoList)
-        {
-            toDoList.UserId = userId.ToString();
-        }
+        }   
 
         public async Task<ToDoListResponse?> UpdateToDoListAsync(UpdateToDoListRequest request, Guid userId)
         {
@@ -134,6 +129,11 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                 _logger.LogError(ex, "Error deleting ToDoList {ToDoListId} for user {UserId}", id, userId);
                 throw;
             }
+        }
+
+        private static void UpdateUserId(Guid userId, ToDoList toDoList)
+        {
+            toDoList.UserId = userId.ToString();
         }
     }
 }
