@@ -23,7 +23,7 @@ namespace TaskListWebApi.Controllers
         {
             if (userId == Guid.Empty || userId != UserId)
             {
-                _logger.LogWarning(message: "WHF - Request for User profile failed - userId Guid not found. Request {Method}", methodName);
+                _logger.LogWarning(message: "Request for User profile failed - userId Guid not found. Request {Method}", methodName);
                 throw new UserNotFoundException(userId, methodName);
             }
         }
