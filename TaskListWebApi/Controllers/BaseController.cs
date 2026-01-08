@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskList.Api.Application.ExceptionHandling.CustomHandler;
+using TaskList.Api.Domian;
 using TaskListWebApi.Middleware;
 
 namespace TaskListWebApi.Controllers
@@ -28,12 +29,12 @@ namespace TaskListWebApi.Controllers
             }
         }
 
-        //protected static void UpdateResponse<T>(ResponseDto<T> externalResponse, string message = "", bool status = false, T? data = default)
-        //{
-        //    externalResponse.Success = status;
-        //    externalResponse.Message = message;
-        //    externalResponse.ResponseData = data;
-        //}
+        protected static void UpdateResponse<T>(ResponseDto<T> externalResponse, string message = "", bool status = false, T? data = default)
+        {
+            externalResponse.Success = status;
+            externalResponse.Message = message;
+            externalResponse.ResponseData = data;
+        }
 
         private string ExtractKey(string key)
         {
