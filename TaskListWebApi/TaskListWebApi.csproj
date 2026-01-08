@@ -24,8 +24,4 @@
     <ProjectReference Include="..\TaskList.Api.Infrastructure\TaskList.Api.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\TasksControllers\" />
-  </ItemGroup>
-
 </Project>

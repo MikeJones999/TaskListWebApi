@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TaskList.Api.Domain.Tasks\TaskList.Api.Domain.Tasks.csproj" />
     <ProjectReference Include="..\TaskList.Api.Domain.Users\TaskList.Api.Domain.Users.csproj" />
     <ProjectReference Include="..\TaskList.Api.Domian\TaskList.Api.Domian.csproj" />
     <ProjectReference Include="..\TaskList.Api.Utility.StaticHelpers\TaskList.Api.Utility.StaticHelpers.csproj" />

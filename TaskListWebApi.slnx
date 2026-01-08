@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="TaskList.Api.Application/TaskList.Api.Application.csproj" />
+  <Project Path="TaskList.Api.Domain.Tasks/TaskList.Api.Domain.Tasks.csproj" Id="f4198d5a-7edc-4622-a916-aaa82ad3c52e" />
   <Project Path="TaskList.Api.Domain.Users/TaskList.Api.Domain.Users.csproj" />
   <Project Path="TaskList.Api.Domian/TaskList.Api.Domian.csproj" />
   <Project Path="TaskList.Api.Infrastructure/TaskList.Api.Infrastructure.csproj" />
