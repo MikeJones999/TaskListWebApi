@@ -8,5 +8,6 @@ namespace TaskList.Api.Application.Interfaces.Services
     {
         Task<UserProfileResponse?> GetUserProfileAsync(Guid userId);
         Task<UploadResult> UpdateProfileImageAsync(IFormFile file, Guid userId);
+        Task<byte[]?> GetProfileImageAsync(Guid userId);
     }
 }
