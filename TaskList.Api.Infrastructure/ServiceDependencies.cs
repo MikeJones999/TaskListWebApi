@@ -27,6 +27,7 @@ namespace TaskList.Api.Infrastructure
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IToDoListRepository, ToDoListRepository>();
+            services.AddTransient<IToDoItemRepository, ToDoItemRepository>();
 
             return services;
         }
