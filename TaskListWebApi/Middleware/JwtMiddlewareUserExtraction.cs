@@ -40,6 +40,8 @@ namespace TaskListWebApi.Middleware
                 }
                 catch (JwtTokenValidationException ex)
                 {
+
+                    //update response to throw correct error in middleware
                     logger.LogWarning("{Message}. Request method: {Method}", ex.Message, nameof(this.InvokeAsync));
                     throw new JwtTokenValidationException($"Token is not valid.");
                 }
