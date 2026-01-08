@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using TaskList.Api.Application.Interfaces.Services;
 using TaskList.Api.Application.Services.AuthenticationServices;
+using TaskList.Api.Application.Services.ToDoItemServices;
 using TaskList.Api.Application.Services.ToDoListServices;
 using TaskList.Api.Application.Services.UserServices;
 using TaskList.Api.Application.MappingProfiles;
@@ -16,7 +17,8 @@ namespace TaskList.Api.Application
             services.AddTransient<ILoginAndRegisterUserService, AuthUserService>();
             services.AddTransient<IUserProfileService, UserProfileService>();
             services.AddTransient<IToDoListService, ToDoListService>();
-            services.AddAutoMapper(typeof(UserMappingProfiles), typeof(ToDoListMappingProfiles));
+            services.AddTransient<IToDoItemService, ToDoItemService>();
+            services.AddAutoMapper(typeof(UserMappingProfiles), typeof(ToDoListMappingProfiles), typeof(ToDoItemMappingProfiles));
 
             // Add application-related services here
             return services;

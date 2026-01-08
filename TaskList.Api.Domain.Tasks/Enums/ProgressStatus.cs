@@ -1,6 +1,6 @@
 ﻿namespace TaskList.Api.Domain.Tasks.Enums
 {
-    public enum Status
+    public enum ProgressStatus
     {
         NotStarted = 1,
         InProgress = 2,
