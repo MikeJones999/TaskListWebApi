@@ -31,6 +31,10 @@ namespace TaskListWebApi.Middleware
                         logger.LogWarning(message: "Failed to extract claimsPrincipals from JWT. Request {Method}", nameof(this.InvokeAsync));
                         throw new JwtTokenValidationException();
                     }
+                    
+                    // Set the validated claims principal to context.User
+                    context.User = claimsPrincipal;
+                    
                     string? userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                     await ExtractUserAndUserIdAndAddToContextAsync(context, logger, userId, dbContext);
                 }
