@@ -41,18 +41,18 @@ namespace TaskList.Api.Infrastructure.Services.FileStorage
                     await file.CopyToAsync(stream);
                 }
 
-                _logger.LogInformation("Successfully uploaded file {StorageName} ({Size} bytes) to {FilePath}", fileName, file.Length, filePath);
+                _logger.LogInformation("Successfully uploaded file {FileName} ({Size} bytes) to {FilePath}", fileName, file.Length, filePath);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error uploading file {StorageName} to local storage", fileName);
+                _logger.LogError(ex, "Error uploading file {FileName} to local storage", fileName);
                 throw;
             }
         }
 
         public async Task<byte[]?> DownloadAsync(string fileName)
         {
-            _logger.LogInformation("Downloading file {StorageName} from local storage", fileName);
+            _logger.LogInformation("Downloading file {FileName} from local storage", fileName);
 
             try
             {
@@ -60,60 +60,60 @@ namespace TaskList.Api.Infrastructure.Services.FileStorage
 
                 if (!File.Exists(filePath))
                 {
-                    _logger.LogWarning("File {StorageName} not found at {FilePath}", fileName, filePath);
+                    _logger.LogWarning("File {FileName} not found at {FilePath}", fileName, filePath);
                     return null;
                 }
 
                 byte[] fileBytes = await File.ReadAllBytesAsync(filePath);
-                _logger.LogInformation("Successfully downloaded file {StorageName} ({Size} bytes)", fileName, fileBytes.Length);
+                _logger.LogInformation("Successfully downloaded file {FileName} ({Size} bytes)", fileName, fileBytes.Length);
                 return fileBytes;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error downloading file {StorageName} from local storage", fileName);
+                _logger.LogError(ex, "Error downloading file {FileName} from local storage", fileName);
                 throw;
             }
         }
 
-        public Task DeleteFileAsync(string storageName)
+        public Task DeleteFileAsync(string fileName)
         {
-            _logger.LogInformation("Deleting file {StorageName} from local storage", storageName);
+            _logger.LogInformation("Deleting file {FileName} from local storage", fileName);
 
             try
             {
-                string filePath = Path.Combine(_storagePath, storageName);
+                string filePath = Path.Combine(_storagePath, fileName);
 
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
-                    _logger.LogInformation("Successfully deleted file {StorageName} from {FilePath}", storageName, filePath);
+                    _logger.LogInformation("Successfully deleted file {FileName} from {FilePath}", fileName, filePath);
                 }
                 else
                 {
-                    _logger.LogWarning("File {StorageName} not found for deletion at {FilePath}", storageName, filePath);
+                    _logger.LogWarning("File {FileName} not found for deletion at {FilePath}", fileName, filePath);
                 }
 
                 return Task.CompletedTask;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting file {StorageName} from local storage", storageName);
+                _logger.LogError(ex, "Error deleting file {FileName} from local storage", fileName);
                 throw;
             }
         }
 
-        public Task<bool> FileExistsAsync(string storageName)
+        public Task<bool> FileExistsAsync(string fileName)
         {
             try
             {
-                string filePath = Path.Combine(_storagePath, storageName);
+                string filePath = Path.Combine(_storagePath, fileName);
                 bool exists = File.Exists(filePath);
-                _logger.LogDebug("File {StorageName} exists: {Exists}", storageName, exists);
+                _logger.LogDebug("File {FileName} exists: {Exists}", fileName, exists);
                 return Task.FromResult(exists);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error checking if file {StorageName} exists", storageName);
+                _logger.LogError(ex, "Error checking if file {FileName} exists", fileName);
                 throw;
             }
         }

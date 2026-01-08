@@ -89,7 +89,6 @@ namespace TaskList.Api.Application.Services.UserServices
                 if (fileBytes == null)
                 {
                     _logger.LogWarning("Profile image file not found for user {UserId} with storage name {StorageName}", userId, storageName);
-                    // Update user flag if file doesn't exist
                     user.HasProfilePicture = false;
                     await _context.SaveAsync();
                 }
