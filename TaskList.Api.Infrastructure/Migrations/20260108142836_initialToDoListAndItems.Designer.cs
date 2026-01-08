@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskList.Api.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using TaskList.Api.Infrastructure.Data;
 namespace TaskList.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskListDbContext))]
-    partial class TaskListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260108142836_initialToDoListAndItems")]
+    partial class initialToDoListAndItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.1");

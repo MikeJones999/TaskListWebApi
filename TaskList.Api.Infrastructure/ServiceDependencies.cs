@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskList.Api.Application.Interfaces.Services;
+using TaskList.Api.Domain.Tasks.Interfaces.Repositories;
 using TaskList.Api.Domain.Users.Interfaces.Repositories;
 using TaskList.Api.Infrastructure.Data;
 using TaskList.Api.Infrastructure.Repositories;
@@ -25,6 +26,7 @@ namespace TaskList.Api.Infrastructure
             services.AddTransient<IBlobServices, BlobServices>();
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IToDoListRepository, ToDoListRepository>();
 
             return services;
         }
