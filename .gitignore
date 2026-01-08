@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /TaskListWebApi/TaskList.db-shm
 /TaskListWebApi/TaskList.db-wal
+/TaskListWebApi/appsettings.Development.json
