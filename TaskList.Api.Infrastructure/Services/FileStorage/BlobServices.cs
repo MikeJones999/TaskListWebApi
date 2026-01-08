@@ -10,7 +10,7 @@ using TaskList.Api.Application.Interfaces.Services;
 
 namespace TaskList.Api.Infrastructure.Services.FileStorage
 {
-    public class BlobServices : IBlobServices
+    public class BlobServices : IFileServices
     {
         private BlobContainerClient _client;
         private readonly ILogger<BlobServices> _logger;
@@ -83,5 +83,14 @@ namespace TaskList.Api.Infrastructure.Services.FileStorage
             }
         }
 
+        public Task<byte[]?> DownloadAsync(string storageName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> FileExistsAsync(string storageName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

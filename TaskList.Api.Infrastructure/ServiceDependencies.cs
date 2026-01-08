@@ -21,15 +21,27 @@ namespace TaskList.Api.Infrastructure
             services.AddDbContext<TaskListDbContext>(options => options.UseSqlite(connectionString));
             services.AddHostedService<DatabaseMigrationService>();
 
-
-            //check config settings and run stratgey pattern for file or blob
-            services.AddTransient<IBlobServices, BlobServices>();
+            GetFileStorageServiceByAppsettings(configuration, services);
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IToDoListRepository, ToDoListRepository>();
             services.AddTransient<IToDoItemRepository, ToDoItemRepository>();
 
             return services;
+        }
+
+        private static void GetFileStorageServiceByAppsettings(IConfiguration configuration, IServiceCollection services)
+        {
+            bool useBlobStorage = configuration.GetValue<bool>("FileStorage:UseBlobStorage", false);
+
+            if (useBlobStorage)
+            {
+                services.AddTransient<IFileServices, BlobServices>();
+            }
+            else
+            {
+                services.AddTransient<IFileServices, FileService>();
+            }
         }
     }
 }
