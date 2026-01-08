@@ -6,7 +6,7 @@ namespace TaskList.Api.Domain.Tasks.DTOs.ToDoListDTOs
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
-        public int TaskCount { get; set; }
+        public int ToDoItemCount { get; set; }
         public List<ToDoItemSummary> Tasks { get; set; } = new List<ToDoItemSummary>();
     }
 }

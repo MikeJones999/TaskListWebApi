@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskList.Api.Application.Interfaces.Services;
-using TaskList.Api.Application.MappingProfiles;
 using TaskList.Api.Application.Services.AuthenticationServices;
 using TaskList.Api.Application.Services.ToDoListServices;
 using TaskList.Api.Application.Services.UserServices;
-using TaskList.Api.Domain.Users.Interfaces.Repositories;
+using TaskList.Api.Application.MappingProfiles;
 
 namespace TaskList.Api.Application
 {
@@ -16,10 +15,8 @@ namespace TaskList.Api.Application
             services.AddTransient<IRefreshUserService, AuthUserService>();
             services.AddTransient<ILoginAndRegisterUserService, AuthUserService>();
             services.AddTransient<IUserProfileService, UserProfileService>();
-            services.AddAutoMapper(typeof(UserMappingProfiles));
             services.AddTransient<IToDoListService, ToDoListService>();
-
-
+            services.AddAutoMapper(typeof(UserMappingProfiles), typeof(ToDoListMappingProfiles));
 
             // Add application-related services here
             return services;

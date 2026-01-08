@@ -25,7 +25,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
 
             try
             {
-                var toDoLists = await _toDoListService.GetAllToDoListsAsync(UserId);
+                IEnumerable<ToDoListResponse> toDoLists = await _toDoListService.GetAllToDoListsAsync(UserId);
                 UpdateResponse(response, "ToDoLists retrieved successfully", true, toDoLists);
                 _logger.LogInformation("User {UserId} retrieved all ToDoLists", UserId);
                 return Ok(response);
@@ -41,7 +41,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ResponseDto<ToDoListResponse>>> GetToDoListById(int id)
         {
-            var response = new ResponseDto<ToDoListResponse>();
+            ResponseDto<ToDoListResponse> response = GetResponseModel();
 
             if (id <= 0)
             {
@@ -51,7 +51,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
 
             try
             {
-                var toDoList = await _toDoListService.GetToDoListByIdAsync(id, UserId);
+                ToDoListResponse? toDoList = await _toDoListService.GetToDoListByIdAsync(id, UserId);
                 if (toDoList == null)
                 {
                     UpdateResponse(response, "ToDoList not found");
@@ -73,13 +73,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
         [HttpPost]
         public async Task<ActionResult<ResponseDto<ToDoListResponse>>> CreateToDoList([FromBody] CreateToDoListRequest request)
         {
-            var response = new ResponseDto<ToDoListResponse>();
-
-            if (!ModelState.IsValid)
-            {
-                UpdateResponse(response, "Invalid request data");
-                return BadRequest(response);
-            }
+            ResponseDto<ToDoListResponse> response = GetResponseModel();
 
             if (string.IsNullOrWhiteSpace(request.Title))
             {
@@ -89,7 +83,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
 
             try
             {
-                var toDoList = await _toDoListService.CreateToDoListAsync(request, UserId);
+                ToDoListResponse toDoList = await _toDoListService.CreateToDoListAsync(request, UserId);
                 UpdateResponse(response, "ToDoList created successfully", true, toDoList);
                 _logger.LogInformation("User {UserId} created ToDoList {ToDoListId}", UserId, toDoList.Id);
                 return CreatedAtAction(nameof(GetToDoListById), new { id = toDoList.Id }, response);
@@ -111,17 +105,11 @@ namespace TaskListWebApi.Controllers.TasksControllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ResponseDto<ToDoListResponse>>> UpdateToDoList(int id, [FromBody] UpdateToDoListRequest request)
         {
-            var response = new ResponseDto<ToDoListResponse>();
+            ResponseDto<ToDoListResponse> response = GetResponseModel();
 
             if (id <= 0 || id != request.Id)
             {
                 UpdateResponse(response, "Invalid ToDoList ID");
-                return BadRequest(response);
-            }
-
-            if (!ModelState.IsValid)
-            {
-                UpdateResponse(response, "Invalid request data");
                 return BadRequest(response);
             }
 
@@ -133,7 +121,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
 
             try
             {
-                var toDoList = await _toDoListService.UpdateToDoListAsync(request, UserId);
+                ToDoListResponse? toDoList = await _toDoListService.UpdateToDoListAsync(request, UserId);
                 if (toDoList == null)
                 {
                     UpdateResponse(response, "ToDoList not found");
@@ -158,6 +146,11 @@ namespace TaskListWebApi.Controllers.TasksControllers
             }
         }
 
+        private static ResponseDto<ToDoListResponse> GetResponseModel()
+        {
+            return new ResponseDto<ToDoListResponse>();
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<ResponseDto<bool>>> DeleteToDoList(int id)
         {
@@ -171,8 +164,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
 
             try
             {
-                var deleted = await _toDoListService.DeleteToDoListAsync(id, UserId);
-                if (!deleted)
+                if (!await _toDoListService.DeleteToDoListAsync(id, UserId))
                 {
                     UpdateResponse(response, "ToDoList not found");
                     return NotFound(response);

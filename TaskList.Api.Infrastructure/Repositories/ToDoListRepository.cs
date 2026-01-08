@@ -23,7 +23,6 @@ namespace TaskList.Api.Infrastructure.Repositories
             try
             {
                 var result = await _context.ToDoLists
-                    .AsNoTracking()
                     .Include(t => t.ToDoItems)
                     .Where(t => t.UserId == userId)
                     .AsNoTracking()
