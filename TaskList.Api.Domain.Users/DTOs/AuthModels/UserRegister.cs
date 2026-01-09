@@ -15,7 +15,5 @@ namespace TaskList.Api.Domain.Users.DTOs.AuthModels
         public string Password { get; set; } = string.Empty;
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
-
-        public bool IsRecruiter { get; set; } = false;
     }
 }
