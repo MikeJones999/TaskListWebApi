@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TaskList.Api.Domain.Users.Validation;
 
 namespace TaskList.Api.Domain.Users.DTOs.AuthModels
 {
     public class UserLogin
     {
         [Required]
-        [EmailAddress]
+        [StrictEmailAddress]
         [DataType(DataType.EmailAddress)]
 
         public string Email { get; set; } = string.Empty;

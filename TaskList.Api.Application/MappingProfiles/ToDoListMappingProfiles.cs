@@ -14,7 +14,9 @@ namespace TaskList.Api.Application.MappingProfiles
 
             CreateMap<ToDoItem, ToDoItemSummary>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
-                .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => (int)src.Priority));
+                .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => (int)src.Priority))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description)) ;
+
 
             CreateMap<CreateToDoListRequest, ToDoList>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title.Trim()))

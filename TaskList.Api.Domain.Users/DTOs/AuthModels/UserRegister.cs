@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TaskList.Api.Domain.Users.Validation;
 
 namespace TaskList.Api.Domain.Users.DTOs.AuthModels
 {
@@ -9,7 +10,7 @@ namespace TaskList.Api.Domain.Users.DTOs.AuthModels
 
         public string DisplayName { get; set; } = string.Empty;
 
-        [Required, EmailAddress]
+        [Required, StrictEmailAddress]
         public string Email { get; set; } = string.Empty;
         [Required, StringLength(100, MinimumLength = 12)]
         public string Password { get; set; } = string.Empty;

@@ -31,7 +31,7 @@ namespace TaskListWebApi.Controllers.AuthenticationControllers
 
         [HttpPost("register")]
         public async Task<ActionResult<RegisterResponse>> Register(UserRegister userRegister)
-        {
+        {   
             RegisterResponse response = await _authUserService.RegisterNewUserAsync(userRegister);
             if (!response.IsSuccessful)
             {
