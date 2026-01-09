@@ -80,7 +80,7 @@ namespace TaskList.Api.Infrastructure.Repositories
             return existing; 
         }
 
-        public async Task<bool> DeleteAsync(int id, string userId)
+        public async Task<bool> DeleteListAnddItemsAsync(int id, string userId)
         {
             _logger.LogInformation("Deleting ToDoList {ToDoListId} for user {UserId}", id, userId);
            

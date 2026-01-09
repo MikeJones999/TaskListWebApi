@@ -115,7 +115,7 @@ namespace TaskList.Api.Application.Services.ToDoListServices
             _logger.LogInformation("Deleting ToDoList {ToDoListId} for user {UserId}", id, userId);
             try
             {
-                if (!await _repository.DeleteAsync(id, userId.ToString()))
+                if (!await _repository.DeleteListAnddItemsAsync(id, userId.ToString()))
                 {
                     _logger.LogWarning("ToDoList {ToDoListId} not found for deletion for user {UserId}", id, userId);
                     return false;
