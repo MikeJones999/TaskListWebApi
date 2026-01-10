@@ -43,9 +43,9 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                     TasksInProgressCount = CountProgressStatusTasks(allItems, ProgressStatus.InProgress),
                     TasksDoneCount = CountProgressStatusTasks(allItems, ProgressStatus.Done),
 
-                    TasksPriorityLow = CountPriorityTasks(allItems, PriorityStatus.Low),
-                    TasksPriorityMedium = CountPriorityTasks(allItems, PriorityStatus.Medium),
-                    TasksPriorityHigh = CountPriorityTasks(allItems, PriorityStatus.High)
+                    TasksPriorityLow = CountPriorityNotDoneTasks(allItems, PriorityStatus.Low),
+                    TasksPriorityMedium = CountPriorityNotDoneTasks(allItems, PriorityStatus.Medium),
+                    TasksPriorityHigh = CountPriorityNotDoneTasks(allItems, PriorityStatus.High)
                 };
 
 
@@ -65,9 +65,9 @@ namespace TaskList.Api.Application.Services.ToDoListServices
             return items.Count(item => item.Status == status);
         }
 
-        private int CountPriorityTasks(IEnumerable<ToDoItem> items, PriorityStatus priority)
+        private int CountPriorityNotDoneTasks(IEnumerable<ToDoItem> items, PriorityStatus priority)
         {
-            return items.Count(item => item.Priority == priority);
+            return items.Count(item => item.Priority == priority && item.Status != ProgressStatus.Done);
         }
 
        
