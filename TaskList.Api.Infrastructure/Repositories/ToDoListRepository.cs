@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TaskList.Api.Domain.Tasks.Enums;
 using TaskList.Api.Domain.Tasks.Interfaces.Repositories;
 using TaskList.Api.Domain.Tasks.Models;
 using TaskList.Api.Infrastructure.Data;
@@ -46,6 +47,56 @@ namespace TaskList.Api.Infrastructure.Repositories
             }
                 
             return result;  
+        }
+
+        public async Task<(ToDoList? ToDoList, int TotalItems)> GetByIdWithPaginationAsync(int id, string userId, int pageNumber, int pageSize, string sortBy, bool ascending)
+        {
+            _logger.LogInformation("Getting Paginated ToDoList {ToDoListId} for user {UserId} - (Page: {PageNumber}, Size: {PageSize}, Sort: {SortBy} {SortDirection})",
+                id, userId, pageNumber, pageSize, sortBy, ascending ? "ASC" : "DESC");
+
+            ToDoList? toDoList = await GetByIdAsync(id, userId);
+
+            if (toDoList == null)
+            {
+                _logger.LogWarning("ToDoList {ToDoListId} not found for user {UserId}", id, userId);
+                return (null, 0);
+            }
+
+            int totalItems = await _context.ToDoItems
+                .Where(item => item.ToDoListId == id)
+                .CountAsync();
+
+            if(totalItems == 0)
+            {
+                _logger.LogInformation("ToDoList {ToDoListId} does not have any tasks to paginate", id);
+                return (toDoList, totalItems);
+            }
+
+            IQueryable<ToDoItem> itemsQuery = _context.ToDoItems
+                .Where(item => item.ToDoListId == id);
+
+            itemsQuery = sortBy.ToLower() switch
+            {
+                "priority" => ascending
+                    ? itemsQuery.OrderBy(item => item.Priority)
+                    : itemsQuery.OrderByDescending(item => item.Priority),
+                "status" => ascending
+                    ? itemsQuery.OrderBy(item => item.Status)
+                    : itemsQuery.OrderByDescending(item => item.Status),                
+                _ => ascending
+                    ? itemsQuery.OrderBy(item => item.Id)
+                    : itemsQuery.OrderByDescending(item => item.Id)
+            };
+
+            toDoList.ToDoItems = await itemsQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();            
+
+            _logger.LogInformation("Successfully retrieved ToDoList {ToDoListId} with {ItemCount} items on page {PageNumber} (Total: {TotalItems})", id, toDoList.ToDoItems.Count, pageNumber, totalItems);
+
+            return (toDoList, totalItems);
         }
 
         public async Task<ToDoList> CreateAsync(ToDoList toDoList)

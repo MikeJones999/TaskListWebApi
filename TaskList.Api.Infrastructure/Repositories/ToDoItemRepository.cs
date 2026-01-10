@@ -93,6 +93,8 @@ namespace TaskList.Api.Infrastructure.Repositories
             _logger.LogInformation("Creating new ToDoItem for ToDoList {ToDoListId} with title '{Title}'", toDoItem.ToDoListId, toDoItem.Title);
             try
             {
+                //TODO maybe worth checking if the user has an existing task with the same title before creating a new one
+                //Additionally maybe worth stopping user from creating more than 100 tasks or add this to a config...
                 toDoItem.CreatedAt = DateTime.UtcNow;
                 await _context.ToDoItems.AddAsync(toDoItem);
                 await _context.SaveChangesAsync();

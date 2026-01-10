@@ -70,6 +70,56 @@ namespace TaskListWebApi.Controllers.TasksControllers
             }
         }
 
+        [HttpGet("{id}/paginated")]
+        public async Task<ActionResult<ResponseDto<PaginatedToDoListResponse>>> GetToDoListByIdWithPagination(
+            int id,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortBy = "",
+            [FromQuery] bool ascending = true)
+        {
+            ResponseDto<PaginatedToDoListResponse> response = new ResponseDto<PaginatedToDoListResponse>();
+
+            if (id <= 0)
+            {
+                UpdateResponse(response, "Invalid ToDoList ID");
+                return BadRequest(response);
+            }
+
+            if (pageNumber < 1)
+            {
+                UpdateResponse(response, "Page number must be greater than 0");
+                return BadRequest(response);
+            }
+
+            if (pageSize < 1 || pageSize > 100) //TODO worth having config to stop more than 100 tasks per task list being created
+            {
+                UpdateResponse(response, "Page size must be between 1 and 100");
+                return BadRequest(response);
+            }
+
+            try
+            {
+                PaginatedToDoListResponse? toDoList = await _toDoListService.GetToDoListByIdWithPaginationAsync(id, UserId, pageNumber, pageSize, sortBy, ascending);
+                if (toDoList == null)
+                {
+                    UpdateResponse(response, "ToDoList not found");
+                    return NotFound(response);
+                }
+
+                UpdateResponse(response, "ToDoList retrieved successfully", true, toDoList);
+                _logger.LogInformation("User {UserId} retrieved ToDoList {ToDoListId} (Page {PageNumber}, Size {PageSize}, Sort {SortBy} {SortDirection})", UserId, id, pageNumber, pageSize, sortBy, ascending ? "ASC" : "DESC");
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving paginated ToDoList {ToDoListId} for user {UserId}", id, UserId);
+                UpdateResponse(response, "Failed to retrieve ToDoList");
+                return StatusCode(500, response);
+            }
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<ResponseDto<ToDoListResponse>>> CreateToDoList([FromBody] CreateToDoListRequest request)
         {

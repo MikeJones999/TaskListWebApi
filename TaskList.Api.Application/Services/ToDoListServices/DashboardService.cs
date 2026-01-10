@@ -38,16 +38,14 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                 {
                     TaskListCount = toDoLists.Count(),
                     TotalTasksCount = allItems.Count,
+                    
+                    TasksNotStartedCount = CountProgressStatusTasks(allItems, ProgressStatus.NotStarted),
+                    TasksInProgressCount = CountProgressStatusTasks(allItems, ProgressStatus.InProgress),
+                    TasksDoneCount = CountProgressStatusTasks(allItems, ProgressStatus.Done),
 
-                    // Progress status counts
-                    TasksNotStartedCount = allItems.Count(item => item.Status == ProgressStatus.NotStarted),
-                    TasksInProgressCount = allItems.Count(item => item.Status == ProgressStatus.InProgress),
-                    TasksDoneCount = allItems.Count(item => item.Status == ProgressStatus.Done),
-
-                    // Priority status counts
-                    TasksPriorityLow = allItems.Count(item => item.Priority == PriorityStatus.Low),
-                    TasksPriorityMedium = allItems.Count(item => item.Priority == PriorityStatus.Medium),
-                    TasksPriorityHigh = allItems.Count(item => item.Priority == PriorityStatus.High)
+                    TasksPriorityLow = CountPriorityTasks(allItems, PriorityStatus.Low),
+                    TasksPriorityMedium = CountPriorityTasks(allItems, PriorityStatus.Medium),
+                    TasksPriorityHigh = CountPriorityTasks(allItems, PriorityStatus.High)
                 };
 
 
@@ -61,5 +59,17 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                 throw;
             }
         }
+
+        private int CountProgressStatusTasks(IEnumerable<ToDoItem> items, ProgressStatus status)
+        {
+            return items.Count(item => item.Status == status);
+        }
+
+        private int CountPriorityTasks(IEnumerable<ToDoItem> items, PriorityStatus priority)
+        {
+            return items.Count(item => item.Priority == priority);
+        }
+
+       
     }
 }
