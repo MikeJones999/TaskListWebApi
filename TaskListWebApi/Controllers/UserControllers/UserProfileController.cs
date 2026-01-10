@@ -20,19 +20,17 @@ namespace TaskListWebApi.Controllers.UserControllers
         }
 
         [HttpGet("Profile")]
-        public async Task<ActionResult<ResponseDto<UserProfileResponse>>> GetUserProfile(Guid userId)
-        {
-            ValidateUserPassedInAgainstAuth(userId, nameof(this.GetUserProfile));
-
+        public async Task<ActionResult<ResponseDto<UserProfileResponse>>> GetUserProfile()
+        {           
             ResponseDto<UserProfileResponse> extResponse = new ResponseDto<UserProfileResponse>();
-            extResponse.ResponseData = await _userProfileService.GetUserProfileAsync(userId);
+            extResponse.ResponseData = await _userProfileService.GetUserProfileAsync(UserId);
             if (extResponse.ResponseData is null)
             {
                 UpdateResponse(extResponse);
                 return Unauthorized(extResponse);
             }
 
-            _logger.LogInformation("WHF - Request for User profile completed - userId {UserId} profile returned.", userId);
+            _logger.LogInformation("WHF - Request for User profile completed - userId {UserId} profile returned.", UserId);
             return Ok(extResponse);
         }
 
