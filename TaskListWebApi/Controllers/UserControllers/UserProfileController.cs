@@ -35,18 +35,17 @@ namespace TaskListWebApi.Controllers.UserControllers
         }
 
         [HttpGet("Profile/Image")]
-        public async Task<IActionResult> GetProfileImage(Guid userId)
+        public async Task<IActionResult> GetProfileImage()
         {
-            ValidateUserPassedInAgainstAuth(userId, nameof(this.GetProfileImage));
 
             try
             {
-                _logger.LogInformation("Request for user {UserId} profile image", userId);
-                byte[]? imageBytes = await _userProfileService.GetProfileImageAsync(userId);
+                _logger.LogInformation("Request for user {UserId} profile image", UserId);
+                byte[]? imageBytes = await _userProfileService.GetProfileImageAsync(UserId);
 
                 if (imageBytes == null)
                 {
-                    _logger.LogWarning("Profile image not found for user {UserId}", userId);
+                    _logger.LogWarning("Profile image not found for user {UserId}", UserId);
                     return NotFound(new ResponseDto<string> 
                     { 
                         Success = false, 
@@ -54,12 +53,12 @@ namespace TaskListWebApi.Controllers.UserControllers
                     });
                 }
 
-                _logger.LogInformation("Successfully returned profile image for user {UserId}", userId);
+                _logger.LogInformation("Successfully returned profile image for user {UserId}", UserId);
                 return File(imageBytes, "image/png");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving profile image for user {UserId}", userId);
+                _logger.LogError(ex, "Error retrieving profile image for user {UserId}", UserId);
                 return StatusCode(500, new ResponseDto<string> 
                 { 
                     Success = false, 

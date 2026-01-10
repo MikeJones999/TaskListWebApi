@@ -32,7 +32,7 @@ namespace TaskListWebApi.Controllers.TasksControllers
                 {
                     _logger.LogWarning("Dashboard data not found for user {UserId}", UserId);
                     UpdateResponse(response, "Dashboard data not found");
-                    return NotFound(response);
+                    return Ok(response);
                 }
 
                 UpdateResponse(response, "Dashboard data retrieved successfully", true, dashboardData);
