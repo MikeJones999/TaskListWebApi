@@ -23,7 +23,7 @@ namespace TaskListWebApi.Controllers.AuthenticationControllers
             LoginResponse response = await _authUserService.LoginUserAsync(userLogin);
             if (!response.IsAuthorised)
             {
-                _logger.LogWarning(message: "WHF - Failed to log in new user for {Email}. Request {Method}", userLogin.Email, nameof(this.Login));
+                _logger.LogWarning(message: "Failed to log in new user for {Email}. Request {Method}", userLogin.Email, nameof(this.Login));
                 return Unauthorized(response);
             }
             return Ok(response);
@@ -35,7 +35,7 @@ namespace TaskListWebApi.Controllers.AuthenticationControllers
             RegisterResponse response = await _authUserService.RegisterNewUserAsync(userRegister);
             if (!response.IsSuccessful)
             {
-                _logger.LogWarning(message: "WHF - Failed to register new user for {Email}. Request {Method}", userRegister.Email, nameof(this.Register));
+                _logger.LogWarning(message: "Failed to register new user for {Email}. Request {Method}", userRegister.Email, nameof(this.Register));
                 return BadRequest(response);
             }
             return Ok(response);

@@ -30,7 +30,7 @@ namespace TaskListWebApi.Controllers.UserControllers
                 return Unauthorized(extResponse);
             }
 
-            _logger.LogInformation("WHF - Request for User profile completed - userId {UserId} profile returned.", UserId);
+            _logger.LogInformation("Request for User profile completed - userId {UserId} profile returned.", UserId);
             return Ok(extResponse);
         }
 
