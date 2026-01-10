@@ -18,6 +18,7 @@ namespace TaskList.Api.Application
             services.AddTransient<IUserProfileService, UserProfileService>();
             services.AddTransient<IToDoListService, ToDoListService>();
             services.AddTransient<IToDoItemService, ToDoItemService>();
+            services.AddTransient<IDashboardService, DashboardService>();
             services.AddAutoMapper(typeof(UserMappingProfiles), typeof(ToDoListMappingProfiles), typeof(ToDoItemMappingProfiles));
 
             // Add application-related services here
