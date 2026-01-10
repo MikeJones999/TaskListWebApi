@@ -6,6 +6,7 @@ namespace TaskList.Api.Domain.Tasks.Interfaces.Repositories
     {
         Task<IEnumerable<ToDoList>> GetAllByUserIdAsync(string userId);
         Task<ToDoList?> GetByIdAsync(int id, string userId);
+        Task<(ToDoList? ToDoList, int TotalItems)> GetByIdWithPaginationAsync(int id, string userId, int pageNumber, int pageSize, string sortBy, bool ascending);
         Task<ToDoList> CreateAsync(ToDoList toDoList);
         Task<ToDoList?> UpdateAsync(ToDoList toDoList);
         Task<bool> DeleteListAnddItemsAsync(int id, string userId);

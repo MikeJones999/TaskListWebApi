@@ -61,6 +61,49 @@ namespace TaskList.Api.Application.Services.ToDoListServices
             }
         }
 
+        public async Task<PaginatedToDoListResponse?> GetToDoListByIdWithPaginationAsync(int id, Guid userId, int pageNumber = 1, int pageSize = 10, string sortBy = "priority", bool ascending = true)
+        {
+            _logger.LogInformation("Retrieving ToDoList {ToDoListId} for user {UserId} with pagination (Page: {PageNumber}, Size: {PageSize}, Sort: {SortBy} {SortDirection})", 
+                id, userId, pageNumber, pageSize, sortBy, ascending ? "ASC" : "DESC");
+            
+            try
+            {
+                var (toDoList, totalItems) = await _repository.GetByIdWithPaginationAsync(id, userId.ToString(), pageNumber, pageSize, sortBy, ascending);
+                
+                if (toDoList == null)
+                {
+                    _logger.LogWarning("ToDoList {ToDoListId} not found for user {UserId}", id, userId);
+                    return null;
+                }
+          
+                int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+                pageNumber = Math.Max(1, Math.Min(pageNumber, totalPages > 0 ? totalPages : 1));
+
+                var response = new PaginatedToDoListResponse
+                {
+                    Id = toDoList.Id,
+                    Title = toDoList.Title,
+                    Description = toDoList.Description,
+                    UserId = toDoList.UserId,
+                    TotalItemCount = totalItems,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalPages = totalPages,
+                    HasPreviousPage = pageNumber > 1,
+                    HasNextPage = pageNumber < totalPages,
+                    Tasks = _mapper.Map<List<ToDoItemSummary>>(toDoList.ToDoItems)
+                };
+
+                _logger.LogInformation("Successfully retrieved ToDoList {ToDoListId} with {ItemCount} items on page {PageNumber} of {TotalPages}", id, toDoList.ToDoItems.Count, pageNumber, totalPages);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving paginated ToDoList {ToDoListId} for user {UserId}", id, userId);
+                throw;
+            }
+        }
+
         public async Task<ToDoListResponse> CreateToDoListAsync(CreateToDoListRequest request, Guid userId)
         {
             _logger.LogInformation("Creating ToDoList with title '{Title}' for user {UserId}", request.Title, userId);
