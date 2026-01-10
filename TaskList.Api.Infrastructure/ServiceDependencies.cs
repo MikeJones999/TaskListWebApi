@@ -20,6 +20,7 @@ namespace TaskList.Api.Infrastructure
             // Add infrastructure-related services here
             services.AddDbContext<TaskListDbContext>(options => options.UseSqlite(connectionString));
             services.AddHostedService<DatabaseMigrationService>();
+            services.AddHostedService<DataSeedService>();
 
             GetFileStorageServiceByAppsettings(configuration, services);
 
