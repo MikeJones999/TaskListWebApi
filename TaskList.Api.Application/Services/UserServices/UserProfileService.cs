@@ -108,19 +108,31 @@ namespace TaskList.Api.Application.Services.UserServices
 
         private async Task DeleteFileIfExistsAndSaveFileAsync(IFormFile file, ApplicationUser user, UploadResult uploadResult)
         {
-            if (user.HasProfilePicture)
-            {
-                string storageName = GetStorageNameForProfileImage(user);
-                await _fileService.DeleteFileAsync(storageName);  //TODO move first then delete after successful upload
-            }
+            try{
+                if (user.HasProfilePicture)
+                {
+                    string storageName = GetStorageNameForProfileImage(user);
+                    await _fileService.DeleteFileAsync(storageName);  //TODO move first then delete after successful upload
+                }
 
-            await _fileService.UploadAsync(file, uploadResult.StoredFileNamed!);
-            user.HasProfilePicture = true;
-            if (await _context.SaveAsync())
-            {
+                await _fileService.UploadAsync(file, uploadResult.StoredFileNamed!);
                 uploadResult.IsSuccessful = true;
+                if (!user.HasProfilePicture)
+                {
+                    user.HasProfilePicture = true;
+                    if (!await _context.SaveAsync())
+                    {
+                        uploadResult.IsSuccessful = false;
+                    }
+                }
             }
-        }         
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading profile image for user {UserId}", user.Id);
+                uploadResult.IsSuccessful = false;
+                uploadResult.ErrorMessage = "An error occurred while uploading the profile image.";
+            }   
+        }
 
         private string GetStorageNameForProfileImage(ApplicationUser user)
         {
