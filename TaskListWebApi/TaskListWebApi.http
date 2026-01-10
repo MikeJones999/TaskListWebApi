@@ -1,6 +1,8 @@
 @TaskListWebApi_HostAddress = http://localhost:5036
 
-GET {{TaskListWebApi_HostAddress}}/weatherforecast/
-Accept: application/json
+# Example: Get User Profile (requires authentication)
+# GET {{TaskListWebApi_HostAddress}}/api/UserProfile/Profile
+# Authorization: Bearer YOUR_JWT_TOKEN_HERE
+# Accept: application/json
 
 ###
