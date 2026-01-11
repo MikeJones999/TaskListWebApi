@@ -2,11 +2,11 @@
 
 This is the backend web api for the Task Manager/list project (Front end can be found [here](https://github.com/MikeJones999/TaskListSpaUI))
 
-once pulled down open teh soltion file in visual studio - set the startup project to be TaskListWebApi and then run https version.
+once pulled down open the soltion file in visual studio - set the startup project to be TaskListWebApi and then run https version.
 
-or if running from termal
+or if running from terminal
 
-go into the main directory  installed (TaskListWebApi)
+go into the main directory installed (TaskListWebApi)
 
 open terminal/command line -> dotnet run --launch-profile https
 
