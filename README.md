@@ -1,6 +1,6 @@
 # <span style="color: #20B2AA;">Task Manager</span>
 
-This is the backend web api for the Task Manager/list project (Front end can be found [here](https://github.com/MikeJones999/TaskListSpaUI))
+This is the backend web api for the Task Manager/list project (Front end can be found [here](https://github.com/MikeJones999/TaskListSpaUI) - please review the readme there for assistance.)
 
 once pulled down open the soltion file in visual studio - set the startup project to be TaskListWebApi and then run https version.
 
