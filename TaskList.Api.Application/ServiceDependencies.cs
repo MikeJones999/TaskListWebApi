@@ -21,7 +21,6 @@ namespace TaskList.Api.Application
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddAutoMapper(typeof(UserMappingProfiles), typeof(ToDoListMappingProfiles), typeof(ToDoItemMappingProfiles));
 
-            // Add application-related services here
             return services;
         }
     }

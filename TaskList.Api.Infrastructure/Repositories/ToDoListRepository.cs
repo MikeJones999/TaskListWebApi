@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using TaskList.Api.Domain.Tasks.Enums;
 using TaskList.Api.Domain.Tasks.Interfaces.Repositories;
 using TaskList.Api.Domain.Tasks.Models;
 using TaskList.Api.Infrastructure.Data;
@@ -75,6 +74,8 @@ namespace TaskList.Api.Infrastructure.Repositories
             IQueryable<ToDoItem> itemsQuery = _context.ToDoItems
                 .Where(item => item.ToDoListId == id);
 
+
+            //Ideally use CGI method we built - switch wil do for now
             itemsQuery = sortBy.ToLower() switch
             {
                 "priority" => ascending

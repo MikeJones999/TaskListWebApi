@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskList.Api.Application.Services.ToDoListServices;
 using TaskList.Api.Domain.Tasks.DTOs.ToDoItemDTOs;
-using TaskList.Api.Domain.Tasks.Models;
 using TaskList.Api.Domian;
 
 namespace TaskListWebApi.Controllers.TasksControllers

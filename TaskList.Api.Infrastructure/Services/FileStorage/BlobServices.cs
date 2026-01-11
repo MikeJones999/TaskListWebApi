@@ -42,7 +42,7 @@ namespace TaskList.Api.Infrastructure.Services.FileStorage
                 }
                 catch (RequestFailedException ex)
                 {
-                    _logger.LogWarning("WHF - Failed to upload stream file to blob storage. Error: {ErrorMessage}, Request {Method}", ex.Message, nameof(this.UploadAsync));
+                    _logger.LogWarning("Failed to upload stream file to blob storage. Error: {ErrorMessage}, Request {Method}", ex.Message, nameof(this.UploadAsync));
                     throw;
                 }
                 finally
@@ -52,7 +52,7 @@ namespace TaskList.Api.Infrastructure.Services.FileStorage
             }
             else
             {
-                _logger.LogWarning("WHF - Failed to upload stream file to blob storage due to file being empty. Request {Method}", nameof(this.UploadAsync));
+                _logger.LogWarning("Failed to upload stream file to blob storage due to file being empty. Request {Method}", nameof(this.UploadAsync));
                 throw new Exception("File is empty - Failed to upload file");
             }
         }
@@ -72,24 +72,26 @@ namespace TaskList.Api.Infrastructure.Services.FileStorage
                 }
                 catch (RequestFailedException ex)
                 {
-                    _logger.LogWarning("WHF - Failed to delete file from blob storage. Request {Method}. Error Message: {Error}", nameof(this.DeleteFileAsync), ex.Message);
+                    _logger.LogWarning("Failed to delete file from blob storage. Request {Method}. Error Message: {Error}", nameof(this.DeleteFileAsync), ex.Message);
                     throw;
                 }
             }
             else
             {
-                _logger.LogWarning("WHF - Failed to delete file from blob storage due to blob name being empty. Request {Method}", nameof(this.DeleteFileAsync));
+                _logger.LogWarning("Failed to delete file from blob storage due to blob name being empty. Request {Method}", nameof(this.DeleteFileAsync));
                 throw new Exception("Failed to delete blob file from blob storage - blob name missing");
             }
         }
 
         public Task<byte[]?> DownloadAsync(string storageName)
         {
+            //TODO - Ideally the UI could pull from the storage url directly
             throw new NotImplementedException();
         }
 
         public Task<bool> FileExistsAsync(string storageName)
         {
+            //TODO - Ideally the UI could pull from the storage url directly - handle existence check there
             throw new NotImplementedException();
         }
     }

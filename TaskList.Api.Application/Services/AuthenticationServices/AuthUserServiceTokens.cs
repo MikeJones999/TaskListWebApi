@@ -67,7 +67,7 @@ namespace TaskList.Api.Application.Services.AuthenticationServices
                 throw new Exception("Internal server Error.");
             }
 
-            //add section to connect to key vault and get the secret
+            //TODO Ideally add section to connect to key vault and get the secret
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             JwtSecurityToken token = new JwtSecurityToken(

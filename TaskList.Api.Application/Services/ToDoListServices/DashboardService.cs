@@ -34,6 +34,7 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                     _logger.LogInformation("No ToDoItems found for user {UserId}", userId);
                     return null;
                 }
+
                 DashboardResponse response = new DashboardResponse
                 {
                     TaskListCount = toDoLists.Count(),
@@ -48,9 +49,7 @@ namespace TaskList.Api.Application.Services.ToDoListServices
                     TasksPriorityHigh = CountPriorityNotDoneTasks(allItems, PriorityStatus.High)
                 };
 
-
-                _logger.LogInformation("Successfully retrieved dashboard data for user {UserId}: {TaskListCount} lists, {TotalTasksCount} tasks",
-                    userId, response.TaskListCount, response.TotalTasksCount);
+                _logger.LogInformation("Successfully retrieved dashboard data for user {UserId}: {TaskListCount} lists, {TotalTasksCount} tasks", userId, response.TaskListCount, response.TotalTasksCount);
                 return response;
             }
             catch (Exception ex)
@@ -68,8 +67,6 @@ namespace TaskList.Api.Application.Services.ToDoListServices
         private int CountPriorityNotDoneTasks(IEnumerable<ToDoItem> items, PriorityStatus priority)
         {
             return items.Count(item => item.Priority == priority && item.Status != ProgressStatus.Done);
-        }
-
-       
+        }       
     }
 }

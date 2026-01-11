@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TaskList.Api.Domain.Users.Models.AuthenticationModels;
+﻿using TaskList.Api.Domain.Users.Models.AuthenticationModels;
 
 namespace TaskList.Api.Domain.Users.Interfaces.Repositories
 {
